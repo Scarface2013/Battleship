@@ -1,3 +1,7 @@
+package tech.tfletch.battleship;
+
+import java.util.*;
+
 public class GUI{
   private Scanner s = new Scanner(System.in);
   
