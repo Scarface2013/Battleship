@@ -1,1 +1,6 @@
-javac -d bin/ src/*
+# Compile main files
+javac -d bin/ src/*.java
+# Change directory so that imports work
+cd bin/
+# Compile drop-in files
+javac -d ./ ../src/AI/*.java
