@@ -23,9 +23,14 @@ public class Menu<T>{
   }
 
   public String[] drawMenu(){
-    String[] toRet = {};
-    
-    return toRet;
+    List<String> toRet = new ArrayList<>();
+    toRet.add(choices.get(0).getSuperclass().getSimpleName()+" class choices:");
+    int count = 0;
+    for(Class choice : choices){
+      toRet.add("  " + (count++) + " - " + choice.getSimpleName());
+    }
+    String[] a = {};
+    return toRet.toArray(a);
   }
   
   public T makeSelection(int i) throws InstantiationException, IllegalAccessException{
