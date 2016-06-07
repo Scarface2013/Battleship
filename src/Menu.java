@@ -11,18 +11,20 @@ public class Menu<T>{
 
   public Menu(String path) throws ClassNotFoundException{
     //Get package name -- TODO: add variability in input
-    pack = String.join(".",path.substring(1).split("/"));
+    pack = String.join(".",path.split("/"))+".";
     
     //Get classes in said package
     choices = new ArrayList<Class>();
     for(File file : new File(path).listFiles()){
-      choices.add( Class.forName( pack + file.getName() ));
+      choices.add( Class.forName( 
+        pack + file.getName().substring(0,file.getName().length()-6) // remove .class extention
+      ));
     }
   }
 
   public String[] drawMenu(){
     String[] toRet = {};
-
+    
     return toRet;
   }
   
