@@ -7,16 +7,14 @@ public class MenuTester{
   public static void main(String[] args){
     try{
       Scanner in = new Scanner(System.in);
-      Menu<AI> menu = new Menu<AI>("AI/");
+      Menu<AI> menu = new Menu<AI>("AI/", AI.class);
+      GUI gui = new GUI();
+      gui.draw(menu.drawMenu());
+      String response = gui.promptUser("Please make a selction: ");
+      AI o = menu.makeSelection(Integer.parseInt(response));
 
-      for(String s : menu.drawMenu()){
-        System.out.println(s);
-      }
-      System.out.print("Please make a selction: ");
-      AI o = menu.makeSelection(in.nextInt());
-
-      System.out.println(o.toString());
-      System.out.println(o.Test());
+      gui.draw(o.toString());
+      gui.draw(o.Test());
     }
     catch(Exception e){
       e.printStackTrace();
