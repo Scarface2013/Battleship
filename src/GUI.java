@@ -15,11 +15,11 @@ public class GUI{
   }
 
   public void draw(String[] sa){
-    //Clear screen
-    System.out.print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
-    //Prints array
     for(String s : sa){
-      System.out.println(s);
+      draw(s);
     }
+  }
+  public void draw(String s){
+    System.out.println(s);
   }
 }
