@@ -7,5 +7,18 @@ public class Player{
   public Player(){
     
   }
-
+  
+  public void setBoard(Board board){
+    this.board = board;
+  }
+  public void getBoard(){
+    return board;
+  }
+  
+  public void setAI(AI ai){
+    this.ai = ai;
+  }
+  public AI getAI(){
+    return ai;
+  }
 }
