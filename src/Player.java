@@ -11,7 +11,7 @@ public class Player{
   public void setBoard(Board board){
     this.board = board;
   }
-  public void getBoard(){
+  public Board getBoard(){
     return board;
   }
   
