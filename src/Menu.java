@@ -10,24 +10,34 @@ public class Menu<T>{
   private List<Class> choices;
   private Class<T> parent;
 
-  public Menu(String path, Class<T> type) throws ClassNotFoundException{
+  public Menu(String path, Class<T> type){
     parent = type;
     //Get package name -- TODO: add variability in input
     packageName = String.join(".",path.split("/"));
     
     //Get classes in said package
     choices = new ArrayList<Class>();
-    for(File file : new File(path).listFiles()){
+    File classDirectory = new File(path);
+    if(classDirectory == null){
+      System.err.println("Menu instantiated with unknown directory: " + path);
+      System.exit(0);
+    }
+    for(File file : classDirectory.listFiles()){
       if(!file.getName().endsWith(".class"))
         continue;
       
       String fileName = file.getName().substring(0,file.getName().length()-6); //get extentionless name
       String className = packageName + "." + fileName;
-      Class c = Class.forName(className);
-      if(!parent.getSimpleName().equals( c.getSuperclass().getSimpleName() )) 
-        continue;
-      
-      choices.add(c);
+      try{
+        Class c = Class.forName(className);
+        if(!parent.getSimpleName().equals( c.getSuperclass().getSimpleName() )) 
+          continue;
+        choices.add(c);
+      }catch(ClassNotFoundException e){
+        System.err.print("A problem has occured while importing ");
+        System.err.println(className + ". See trace below for details");
+        e.printStackTrace();
+      }
     }
   }
 
@@ -41,8 +51,21 @@ public class Menu<T>{
     String[] a = {};
     return toRet.toArray(a);
   }
-  
-  public T makeSelection(int i) throws InstantiationException, IllegalAccessException{
-    return (T)(choices.get(i).newInstance());
+  public T makeSelection(String s){
+    try{
+      int i = Integer.parseInt(s);
+      return makeSelection(i);
+    }catch(NumberFormatException e){
+      System.err.println("User supplied non-number in Menu selection.");
+      return null;
+    }
+  }
+  public T makeSelection(int i){
+    try{
+      return (T)(choices.get(i).newInstance());
+    }catch(Exception e){
+      System.err.println("Error instantiating class");
+      return null;
+    }
   }
 }
