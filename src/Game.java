@@ -40,7 +40,15 @@ public class Game{
 
     player1.setAI(p1AI);
     player2.setAI(p2AI);
-  
+    
+    Menu<BoardBuilder> boardBuilderMenu = new Menu<>("BoardBuilder/", BoardBuilder.class);
+    gui.draw(boardBuilderMenu.drawMenu());
+
+    BoardBuilder boardBuilder = boardBuilderMenu.makeSelection(gui.promptUser("Select a Board Generation style"));
+   
+    player1.setBoard(boardBuilder.buildBoard(1));
+    player2.setBoard(boardBuilder.buildBoard(2));
+    
   }
   
   private void listAI(){
