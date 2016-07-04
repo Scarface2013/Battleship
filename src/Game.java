@@ -29,31 +29,31 @@ public class Game{
     // Select an AI for each player
     Menu<AI> AIMenu = new Menu<>("AI/", AI.class);
     gui.draw(AIMenu.drawMenu());
-
     AI p1AI, p2AI;
     p1AI = p2AI = null;
-
     while(p1AI == null)
       p1AI = AIMenu.makeSelection(gui.promptUser("Select AI for player 1"));
     while(p2AI == null)
       p2AI = AIMenu.makeSelection(gui.promptUser("Select AI for player 2"));
-
     player1.setAI(p1AI);
     player2.setAI(p2AI);
     
     Menu<BoardBuilder> boardBuilderMenu = new Menu<>("BoardBuilder/", BoardBuilder.class);
     gui.draw(boardBuilderMenu.drawMenu());
-
     BoardBuilder boardBuilder = boardBuilderMenu.makeSelection(gui.promptUser("Select a Board Generation style"));
-   
-    player1.setBoard(boardBuilder.buildBoard(1));
-    player2.setBoard(boardBuilder.buildBoard(2));
-    
+    player1.setBoard(boardBuilder.buildBoard());
+    player2.setBoard(boardBuilder.buildBoard());
   }
   
   private void listAI(){
-    gui.draw(player1.getAI().toString());
-    gui.draw(player2.getAI().toString());
+    gui.draw(player1.getAI());
+    gui.draw(player1.getBoard());
+    
+    gui.draw("\n\n");
+    
+    gui.draw(player2.getAI());
+    gui.draw(player2.getBoard());
+    
   }
   
   public static void main(String[] args){
