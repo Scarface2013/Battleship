@@ -5,10 +5,11 @@ import java.util.Random;
 
 
 public class RandomBoard extends BoardBuilder{
-  int[][] boardArray = new int[10][10];
   int[] sizeMap = {5,4,3,3,2}; //ship sizes
   
   public Board buildBoard(int seed){
+    int[][] boardArray = new int[10][10];
+    
     // seed number generator
     Random rand = new Random(seed);
     
@@ -28,7 +29,7 @@ public class RandomBoard extends BoardBuilder{
         num/=10;
         dir = num%4; // 0/1 = up/down and 2/3 = left/right
          
-        valid = validate(x,y,dir,sizeMap[i]);
+        valid = validate(x,y,dir,sizeMap[i],boardArray);
       }
       for(int j = 0; j < sizeMap[i]; j++){
         if(dir == 0)
@@ -50,7 +51,7 @@ public class RandomBoard extends BoardBuilder{
     }
   }
 
-  public boolean validate(int xPos, int yPos, int dir, int size){
+  public boolean validate(int xPos, int yPos, int dir, int size, int[][] boardArray){
     // Check bounds
     if(dir == 0 && (yPos+size) > 9)
       return false;
