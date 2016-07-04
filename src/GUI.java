@@ -2,6 +2,8 @@ package tech.tfletch.battleship;
 
 import java.util.*;
 
+// An EXTREMELY basic GUI system for Battleship
+
 public class GUI{
   private Scanner s = new Scanner(System.in);
   
@@ -13,13 +15,15 @@ public class GUI{
     System.out.println(question+": ");
     return s.nextLine();    
   }
-
-  public void draw(String[] sa){
-    for(String s : sa){
+  
+  public void draw(Object[] sa){
+    for(Object s : sa){
       draw(s);
     }
   }
-  public void draw(String s){
+
+  public void draw(Object s){
     System.out.println(s);
   }
+
 }
