@@ -2,29 +2,25 @@ package tech.tfletch.battleship;
 
 public class Board{
   private int[][] gameBoard;
-  private String xMap = "abcdefghij";
+  private final char[] xMap = {'a','b','c','d','e','f','g','h','i','j'};
+  private final char[] sMap = {' ','O','X'}; // see toString for proper usage
   // 0 - water
   // 1 - ship
   // 2 - dead ship
   
   public Board(int[][] gameBoard) throws Exception{
     //check board validity
-    boolean valid = true;
     if(gameBoard.length != 10)
-      valid = false;
+      throw new Exception("Board height is "+ gameBoard.length);
     for(int[] row : gameBoard){
       if(row.length != 10) 
-        valid = false;
+        throw new Exception("Board width is " + row.length);
       for(int entry : row){
-        if(entry != 0 || entry != 1) 
-          valid = false;
+        if(entry != 0 && entry != 1) 
+          throw new Exception("Board entry is " + entry);
       } 
     }
-
-    if(valid)
-      this.gameBoard = gameBoard;
-    else
-      throw new Exception();
+    this.gameBoard = gameBoard;
   }
 
   public String fireAt(String x, int y){
@@ -32,4 +28,17 @@ public class Board{
     return "";
   }
   
+  public String toString(){
+    String toRet = "";
+    toRet+="+-+-+-+-+-+-+-+-+-+-+\n";
+    for(int[] a : gameBoard){
+      toRet+="|";
+      for(int i : a){
+        toRet+=sMap[i]+"|";
+      }
+      toRet+="\n";
+    }
+    toRet+="+-+-+-+-+-+-+-+-+-+-+";
+  return toRet;
+  }
 }
