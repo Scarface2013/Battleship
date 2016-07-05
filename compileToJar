@@ -1,0 +1,3 @@
+./compile
+cd bin
+jar cvfe ../game.jar tech.tfletch.battleship.Game *
