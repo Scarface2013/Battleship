@@ -30,15 +30,17 @@ public class Board{
   
   public String toString(){
     String toRet = "";
-    toRet+="+-+-+-+-+-+-+-+-+-+-+\n";
+    toRet+="  a b c d e f g h i j \n";
+    toRet+=" +-+-+-+-+-+-+-+-+-+-+\n";
+    int count = 0;
     for(int[] a : gameBoard){
-      toRet+="|";
+      toRet+=(count++ + "|");
       for(int i : a){
         toRet+=sMap[i]+"|";
       }
       toRet+="\n";
     }
-    toRet+="+-+-+-+-+-+-+-+-+-+-+";
+    toRet+=" +-+-+-+-+-+-+-+-+-+-+";
   return toRet;
   }
 }
