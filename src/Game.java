@@ -46,12 +46,12 @@ public class Game{
   }
   
   private void listAI(){
-    gui.draw(player1.getAI());
+    gui.draw(player1.getAI().getName());
     gui.draw(player1.getBoard());
     
     gui.draw("\n\n");
     
-    gui.draw(player2.getAI());
+    gui.draw(player2.getAI().getName());
     gui.draw(player2.getBoard());
     
   }
