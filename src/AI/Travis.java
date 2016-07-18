@@ -3,10 +3,7 @@ package AI;
 import tech.tfletch.battleship.*;
 
 public class Travis extends AI{
-  public String toString(){
+  public String getName(){
     return "Travis";
-  }
-  public String Test(){
-    return "I am the best class ever";
   }
 }

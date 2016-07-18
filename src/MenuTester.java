@@ -13,8 +13,7 @@ public class MenuTester{
       String response = gui.promptUser("Please make a selction: ");
       AI o = menu.makeSelection(Integer.parseInt(response));
 
-      gui.draw(o.toString());
-      gui.draw(o.Test());
+      gui.draw(o.getName());
     }
     catch(Exception e){
       e.printStackTrace();
