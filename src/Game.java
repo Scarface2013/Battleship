@@ -1,16 +1,21 @@
 package tech.tfletch.battleship;
 
 public class Game{
+  // Set during initialize()
   private Player player1;
   private Player player2;
   private GUI gui;
+
+  // Set after game ends
+  private Player winner;
+  private Player loser;
 
   public Game(){
     
   } 
 
-  private void nextTurn(){
-  
+  public void nextTurn(){
+    
   }
   
   private void initialize(){
@@ -55,10 +60,27 @@ public class Game{
     gui.draw(player2.getBoard());
     
   }
+  public boolean isRunning(){
+    if(player1.hasWon()){
+      winner = player1;
+      loser = player2;
+      return false;
+    }
+    else if(player2.hasWon()){
+      winner = player2;
+      loser = player1;
+      return false;
+    }
+    return true;
+  }
   
   public static void main(String[] args){
     Game game = new Game();
     game.initialize();
+    game.listAI();
+    while(game.isRunning()){
+      game.nextTurn();
+    }
     game.listAI();
   }
   
