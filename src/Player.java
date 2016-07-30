@@ -21,4 +21,21 @@ public class Player{
   public AI getAI(){
     return ai;
   }
+  
+  public String fireAt(String s){
+    return board.fireAt(s);
+  }
+
+  public void setResponse(){
+  
+  } 
+  
+  public boolean hasWon(){
+    for(int[] b : board.getBoard()){
+      for(int a : b){
+        if(a == 1) return false;
+      }
+    }
+    return true;
+  }
 }
