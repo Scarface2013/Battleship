@@ -23,9 +23,13 @@ public class Board{
     this.gameBoard = gameBoard;
   }
 
-  public String fireAt(String x, int y){
+  public String fireAt(String x){
     // get # equiv of x
     return "";
+  }
+  
+  public int[][] getBoard(){
+    return gameBoard;
   }
   
   public String toString(){
