@@ -15,7 +15,22 @@ public class Game{
   } 
 
   public void nextTurn(){
+    // STEP 1:
+    // Asks player what they want their next target to be
+    String p1Cord = player1.nextTurn();
+    String p2Cord = player2.nextTurn();
     
+    // STEP 2:
+    // Fires at enemy board, based on target. Hit|Miss is returned, so that
+    // the AI can (theoretically) refine their search for next call to nextTurn
+    String p1Resp = player2.fireAt(p1Cord);
+    String p2Resp = player1.fireAt(p2Cord);
+    
+    // STEP 3:
+    // Passes in the cords they picked in step 1, along with the other player's
+    // response to said cords
+    player1.setResponse(p1Cord, p2Resp);
+    player2.setResponse(p2Cord, p1Resp);
   }
   
   private void initialize(){
@@ -59,6 +74,10 @@ public class Game{
     gui.draw(player2.getAI().getName());
     gui.draw(player2.getBoard());
     
+    if(winner != null){
+      gui.draw("\n\nWINNER: " + winner.getAI().getName());
+      gui.draw("LOSER: " + loser.getAI().getName());
+    }
   }
   public boolean isRunning(){
     if(player1.hasWon()){
@@ -83,5 +102,4 @@ public class Game{
     }
     game.listAI();
   }
-  
 }

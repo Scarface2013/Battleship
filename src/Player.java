@@ -22,14 +22,18 @@ public class Player{
     return ai;
   }
   
-  public String fireAt(String s){
-    return board.fireAt(s);
+  public String nextTurn(){
+    return ai.nextTarget();
+  }
+  
+  public void setResponse(String cord, String resp){
+    ai.setResponse(cord,resp);
+  }
+  
+  public String fireAt(String cord){
+    return board.fireAt(cord); //returns (hit|miss)
   }
 
-  public void setResponse(){
-  
-  } 
-  
   public boolean hasWon(){
     for(int[] b : board.getBoard()){
       for(int a : b){
