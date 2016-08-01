@@ -1,0 +1,8 @@
+apply plugin: 'java'
+apply plugin: 'application'
+
+mainClassName = 'tech.tfletch.battleship.Game'
+
+run{
+    standardInput = System.in
+}

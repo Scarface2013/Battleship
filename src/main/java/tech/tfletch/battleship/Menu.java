@@ -17,7 +17,8 @@ public class Menu<T>{
     
     //Get classes in said package
     choices = new ArrayList<Class>();
-    File classDirectory = new File(path);
+    File classDirectory = new File("build/classes/main/"+path);
+
     if(classDirectory == null){
       System.err.println("Menu instantiated with unknown directory: " + path);
       System.exit(0);
