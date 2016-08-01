@@ -11,7 +11,11 @@ public class GUI{
   
   public String promptUser(String question){
     System.out.println(question+": ");
-    return s.nextLine();    
+    if(!s.hasNextLine()){
+      System.err.println("Something is wrong with STDIN. I'm out");
+      System.exit(66); //EX_NOINPUT as defined by sysexits.h
+    }
+    return s.nextLine();
   }
 
   public void draw(Object[] sa){
