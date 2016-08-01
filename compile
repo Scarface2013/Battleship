@@ -1,6 +1,0 @@
-# Change directory so that imports work
-cd bin/
-# Compile main files
-javac -d ./ ../src/*.java
-# Compile drop-in files
-javac -d ./ ../src/*/*.java
