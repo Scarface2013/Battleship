@@ -2,7 +2,7 @@ package tech.tfletch.battleship;
 
 public class Board{
   private int[][] gameBoard;
-  private final char[] xMap = {'a','b','c','d','e','f','g','h','i','j'};
+  private final String xMap = "abcdefghij";
   private final char[] sMap = {' ','O','X'}; // see toString for proper usage
   // 0 - water
   // 1 - ship
@@ -23,9 +23,26 @@ public class Board{
     this.gameBoard = gameBoard;
   }
 
-  public String fireAt(String x, int y){
+  public String fireAt(String cord){
     // get # equiv of x
-    return "";
+    int x = xMap.indexOf(cord.charAt(0));
+
+    // Subtract 48 because casting a char to an int converts it to its
+    // respective character code (and 0 is 48, 1 is 49, etc.)
+    int y = cord.charAt(1) - 48;
+
+    int result = gameBoard[x][y];
+
+    if(result == 1){
+      gameBoard[x][y] = 2;
+      return "hit";
+    }
+
+    return "miss";
+  }
+  
+  public int[][] getBoard(){
+    return gameBoard;
   }
   
   public String toString(){

@@ -16,7 +16,7 @@ public class TestAI extends AI{
   }
   
   public void setResponse(String cord, String resp){
-  
+    //This AI is stupid, so it just throws away response info 
   }
   
   public String nextTarget(){
@@ -24,7 +24,7 @@ public class TestAI extends AI{
       targets = constructTargets();
       isFirst = false;
     }
-    return targets[targetNum];
+    return targets[targetNum++];
   }
   
   private String[] constructTargets(){
