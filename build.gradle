@@ -6,3 +6,12 @@ mainClassName = 'tech.tfletch.battleship.Game'
 run{
     standardInput = System.in
 }
+
+jar {
+    manifest {
+        attributes(
+                'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
+                'Main-Class': 'tech.tfletch.battleship.Game'
+        )
+    }
+}
