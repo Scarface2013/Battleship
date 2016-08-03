@@ -65,7 +65,8 @@ public class Menu<T>{
     try{
       return (T)(choices.get(i).newInstance());
     }catch(Exception e){
-      System.err.println("Error instantiating class");
+      System.err.println("Error instantiating class:");
+      e.printStackTrace();
       return null;
     }
   }
