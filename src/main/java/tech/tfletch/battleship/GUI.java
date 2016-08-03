@@ -1,29 +1,35 @@
 package tech.tfletch.battleship;
 
-import java.util.*;
-
-public class GUI{
-  private Scanner s = new Scanner(System.in);
+public abstract class GUI{
   
-  public GUI(){
-    
-  }
+  public abstract String promptUser(String question);
+  public abstract void draw(Object s);
+  public abstract void cls();
+  public abstract boolean test();
   
-  public String promptUser(String question){
-    System.out.println(question+": ");
-    if(!s.hasNextLine()){
-      System.err.println("Something is wrong with STDIN. I'm out");
-      System.exit(66); //EX_NOINPUT as defined by sysexits.h
-    }
-    return s.nextLine();
-  }
-
   public void draw(Object[] sa){
     for(Object s : sa){
       draw(s);
     }
   }
-  public void draw(Object s){
-    System.out.println(s);
+  
+  public void draw(Object[] a, Object[] b){
+    int max = a.length > b.length ? a.length : b.length;
+    
+    for(int i = 0; i < max; i++){
+      draw(
+        (i < a.length ? (a[i].toString() + "     ") : ""),
+        (i < b.length ? b[i].toString() : "")
+      );
+    }
+  }
+  
+  public void draw(Object a, Object b){
+    // if the stringified object contains newlines, we want to split-screen on them
+    if(a.toString().contains("\n") || b.toString().contains("\n")){
+      draw(a.toString().split("\n"), b.toString().split("\n"));
+    }else{
+      draw(a.toString() + b.toString());
+    }
   }
 }
