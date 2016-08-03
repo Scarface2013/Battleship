@@ -6,10 +6,6 @@ import tech.tfletch.battleship.*;
 public class CommandLine extends GUI{
   private Scanner s = new Scanner(System.in);
   
-  public boolean test(){
-    return s.hasNextLine();
-  }
-  
   public String promptUser(String question){
     System.out.println(question+": ");
     if(!s.hasNextLine()){

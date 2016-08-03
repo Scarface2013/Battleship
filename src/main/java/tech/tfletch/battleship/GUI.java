@@ -5,7 +5,6 @@ public abstract class GUI{
   public abstract String promptUser(String question);
   public abstract void draw(Object s);
   public abstract void cls();
-  public abstract boolean test();
   
   public void draw(Object[] sa){
     for(Object s : sa){

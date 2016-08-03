@@ -38,13 +38,14 @@ public class Game{
   private void initialize(){
     player1 = new Player();
     player2 = new Player();
-    gui = new CommandLine(); //Default because why not.
-    
-    // if, for some reason, System.in is unavailable
-    if(!gui.test()){
+
+    //The two default GUI choices
+    try{
       gui = new Basic();
+    }catch(Exception e){
+      gui = new CommandLine();
     }
-    
+
     // Allow user to change GUI from default command line.
     Menu<GUI> GUIMenu = new Menu<>("GUI/",GUI.class);
     gui.draw(GUIMenu.drawMenu());

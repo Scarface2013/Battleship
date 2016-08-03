@@ -49,10 +49,6 @@ public class Basic extends GUI{
     frame.pack();
   }
   
-  public boolean test(){
-    return true; // lol probably
-  }
-  
   public void draw(Object o){
     String s = o.toString();
     output.append(s + "\n");
