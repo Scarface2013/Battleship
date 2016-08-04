@@ -21,16 +21,25 @@ public class Game{
     String p2Cord = player2.nextTurn();
     
     // STEP 2:
+    // Check validity of returned co-ordinates
+    String regex = "([a-jA-j])([0-9])";
+    if(p1Cord == null || p2Cord == null 
+    || !p1Cord.matches(regex) || !p2Cord.matches(regex)){
+      gui.draw("One of the AI is returning invalid coordinates. Exiting");
+      System.exit(70); //EX_SOFTWARE
+    }
+    // STEP 3:
     // Fires at enemy board, based on target. Hit|Miss is returned, so that
     // the AI can (theoretically) refine their search for next call to nextTurn
     String p1Resp = player2.fireAt(p1Cord);
     String p2Resp = player1.fireAt(p2Cord);
     
-    // STEP 3:
+    // STEP 4:
     // Passes in the cords they picked in step 1, along with the other player's
     // response to said cords
     player1.setResponse(p1Cord, p2Resp);
     player2.setResponse(p2Cord, p1Resp);
+    
   }
   
   private void initialize(){
