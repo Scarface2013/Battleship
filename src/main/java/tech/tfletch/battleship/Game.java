@@ -50,10 +50,13 @@ public class Game{
     // Allow user to change GUI from default command line.
     Menu<GUI> GUIMenu = new Menu<>("GUI/",GUI.class);
     gui.draw(GUIMenu.drawMenu());
-    GUI tGui = GUIMenu.makeSelection(gui.promptUser("Select a User Interface"));
-    if(tGui != null){
-      gui = tGui;
+    GUI tGui = null;
+    while(tGui == null){
+      tGui = GUIMenu.makeSelection(
+        gui.promptUser("Select a User Interface")
+      );
     }
+    gui = tGui;
 
     // Select an AI for each player
     Menu<AI> AIMenu = new Menu<>("AI/", AI.class);
@@ -69,7 +72,12 @@ public class Game{
     
     Menu<BoardBuilder> boardBuilderMenu = new Menu<>("BoardBuilder/", BoardBuilder.class);
     gui.draw(boardBuilderMenu.drawMenu());
-    BoardBuilder boardBuilder = boardBuilderMenu.makeSelection(gui.promptUser("Select a Board Generation style"));
+    BoardBuilder boardBuilder = null;
+    while(boardBuilder == null){
+      boardBuilder = boardBuilderMenu.makeSelection(
+        gui.promptUser("Select a Board Generation style")
+      );
+    }
     player1.setBoard(boardBuilder.buildBoard());
     player2.setBoard(boardBuilder.buildBoard());
   }
