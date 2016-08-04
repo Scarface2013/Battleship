@@ -25,7 +25,7 @@ public class Board{
 
   public String fireAt(String cord){
     // get # equiv of x
-    int x = xMap.indexOf(cord.charAt(0));
+    int x = xMap.indexOf(cord.toLowerCase().charAt(0));
 
     // Subtract 48 because casting a char to an int converts it to its
     // respective character code (and 0 is 48, 1 is 49, etc.)
