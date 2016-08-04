@@ -23,16 +23,25 @@ public class Game{
     String p2Cord = player2.nextTurn();
     
     // STEP 2:
+    // Check validity of returned co-ordinates
+    String regex = "([a-jA-j])([0-9])";
+    if(p1Cord == null || p2Cord == null 
+    || !p1Cord.matches(regex) || !p2Cord.matches(regex)){
+      gui.draw("One of the AI is returning invalid coordinates. Exiting");
+      System.exit(70); //EX_SOFTWARE
+    }
+    // STEP 3:
     // Fires at enemy board, based on target. Hit|Miss is returned, so that
     // the AI can (theoretically) refine their search for next call to nextTurn
     String p1Resp = player2.fireAt(p1Cord);
     String p2Resp = player1.fireAt(p2Cord);
     
-    // STEP 3:
+    // STEP 4:
     // Passes in the cords they picked in step 1, along with the other player's
     // response to said cords
     player1.setResponse(p1Cord, p2Resp);
     player2.setResponse(p2Cord, p1Resp);
+    
   }
   
   private void initialize(){
@@ -49,10 +58,13 @@ public class Game{
     // Allow user to change GUI from default command line.
     Menu<GUI> GUIMenu = new Menu<>("GUI/",GUI.class);
     gui.draw(GUIMenu.drawMenu());
-    GUI tGui = GUIMenu.makeSelection(gui.promptUser("Select a User Interface"));
-    if(tGui != null){
-      gui = tGui;
+    GUI tGui = null;
+    while(tGui == null){
+      tGui = GUIMenu.makeSelection(
+        gui.promptUser("Select a User Interface")
+      );
     }
+    gui = tGui;
 
     // Select an AI for each player
     Menu<AI> AIMenu = new Menu<>("AI/", AI.class);
@@ -68,7 +80,12 @@ public class Game{
     
     Menu<BoardBuilder> boardBuilderMenu = new Menu<>("BoardBuilder/", BoardBuilder.class);
     gui.draw(boardBuilderMenu.drawMenu());
-    BoardBuilder boardBuilder = boardBuilderMenu.makeSelection(gui.promptUser("Select a Board Generation style"));
+    BoardBuilder boardBuilder = null;
+    while(boardBuilder == null){
+      boardBuilder = boardBuilderMenu.makeSelection(
+        gui.promptUser("Select a Board Generation style")
+      );
+    }
     player1.setBoard(boardBuilder.buildBoard());
     player2.setBoard(boardBuilder.buildBoard());
   }
