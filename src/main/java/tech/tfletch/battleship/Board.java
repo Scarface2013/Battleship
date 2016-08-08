@@ -31,10 +31,10 @@ public class Board{
     // respective character code (and 0 is 48, 1 is 49, etc.)
     int y = cord.charAt(1) - 48;
 
-    int result = gameBoard[x][y];
+    int result = gameBoard[y][x];
 
     if(result == 1){
-      gameBoard[x][y] = 2;
+      gameBoard[y][x] = 2;
       return "hit";
     }
 
