@@ -1,5 +1,7 @@
 package tech.tfletch.battleship;
 
+import GUI.*;
+
 public class Game{
   // Set during initialize()
   private Player player1;
@@ -45,8 +47,14 @@ public class Game{
   private void initialize(){
     player1 = new Player();
     player2 = new Player();
-    gui = new GUI();
-    
+
+    //The two default GUI choices
+    try{
+      gui = new Basic();
+    }catch(Exception e){
+      gui = new CommandLine();
+    }
+
     // Allow user to change GUI from default command line.
     Menu<GUI> GUIMenu = new Menu<>("GUI/",GUI.class);
     gui.draw(GUIMenu.drawMenu());
@@ -83,16 +91,19 @@ public class Game{
   }
   
   private void listAI(){
-    gui.draw(player1.getAI().getName());
-    gui.draw(player1.getBoard());
+    gui.cls();
     
-    gui.draw("\n\n");
-    
-    gui.draw(player2.getAI().getName());
-    gui.draw(player2.getBoard());
+    gui.draw(
+            String.format(
+                    "%1$-"+(33-player1.getAI().getName().length())+"s",
+                    player1.getAI().getName()
+            ),
+            player2.getAI().getName()
+    );
+    gui.draw(player1.getBoard(), player2.getBoard());
     
     if(winner != null){
-      gui.draw("\n\nWINNER: " + winner.getAI().getName());
+      gui.draw("\nWINNER: " + winner.getAI().getName());
       gui.draw("LOSER: " + loser.getAI().getName());
     }
   }

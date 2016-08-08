@@ -6,10 +6,6 @@ import tech.tfletch.battleship.*;
 public class CommandLine extends GUI{
   private Scanner s = new Scanner(System.in);
   
-  public CommandLine(){
-    
-  }
-  
   public String promptUser(String question){
     System.out.println(question+": ");
     if(!s.hasNextLine()){
@@ -18,13 +14,13 @@ public class CommandLine extends GUI{
     }
     return s.nextLine();    
   }
-
-  public void draw(Object[] sa){
-    for(Object s : sa){
-      draw(s);
-    }
-  }
+  
   public void draw(Object s){
     System.out.println(s);
+  }
+  
+  public void cls(){
+    // Default console size is 80x24, so 24 newlines will clear it.
+    System.out.print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
   }
 }
