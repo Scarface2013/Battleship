@@ -52,6 +52,22 @@ public class Menu<T>{
     String[] a = {};
     return toRet.toArray(a);
   }
+  
+  public boolean isValid(String s){
+    try{
+      System.err.println(s);
+      int i = Integer.parseInt(s);
+      return isValid(i);
+    }catch(NumberFormatException e){
+      System.err.println("User supplied non-number in Menu selection.");
+      return false;
+    }
+ 
+  }
+  public boolean isValid(int i){
+    return choices.size() > i;
+  }
+  
   public T makeSelection(String s){
     try{
       int i = Integer.parseInt(s);

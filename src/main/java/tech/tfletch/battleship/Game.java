@@ -1,8 +1,14 @@
 package tech.tfletch.battleship;
 
+import java.util.Map;
+import java.util.HashMap;
+
 import GUI.*;
 
 public class Game{
+  
+  private Map<String,String> config = new HashMap<>();
+  
   // Set during initialize()
   private Player player1;
   private Player player2;
@@ -44,48 +50,57 @@ public class Game{
     
   }
   
+  public Map<String,String> getConfig(){
+    return config;
+  }
+  
+  private void configure(Menu menu, String key){
+    gui.draw(menu.drawMenu());
+    while(menu.isValid(
+        config.put(key, gui.promptUser("Select a User Interface"))
+    ));
+  }
+
   private void initialize(){
     player1 = new Player();
     player2 = new Player();
 
-    //The two default GUI choices
+    //The two default-ish GUI choices
     try{
       gui = new Basic();
     }catch(Exception e){
       gui = new CommandLine();
     }
 
-    // Allow user to change GUI from default command line.
+    // Allow user to change GUI from default
     Menu<GUI> GUIMenu = new Menu<>("GUI/",GUI.class);
-    gui.draw(GUIMenu.drawMenu());
-    GUI tGui = null;
-    while(tGui == null){
-      tGui = GUIMenu.makeSelection(
-        gui.promptUser("Select a User Interface")
-      );
+    String key = "GUI";
+    if(!(config.containsKey(key) && GUIMenu.isValid(config.get(key)))){ 
+      this.configure(GUIMenu, key);
     }
-    gui = tGui;
+    gui = GUIMenu.makeSelection(config.get(key));
 
     // Select an AI for each player
     Menu<AI> AIMenu = new Menu<>("AI/", AI.class);
-    gui.draw(AIMenu.drawMenu());
-    AI p1AI, p2AI;
-    p1AI = p2AI = null;
-    while(p1AI == null)
-      p1AI = AIMenu.makeSelection(gui.promptUser("Select AI for player 1"));
-    while(p2AI == null)
-      p2AI = AIMenu.makeSelection(gui.promptUser("Select AI for player 2"));
-    player1.setAI(p1AI);
-    player2.setAI(p2AI);
-    
-    Menu<BoardBuilder> boardBuilderMenu = new Menu<>("BoardBuilder/", BoardBuilder.class);
-    gui.draw(boardBuilderMenu.drawMenu());
-    BoardBuilder boardBuilder = null;
-    while(boardBuilder == null){
-      boardBuilder = boardBuilderMenu.makeSelection(
-        gui.promptUser("Select a Board Generation style")
-      );
+    if(!(config.containsKey("P1AI") && AIMenu.isValid(config.get("P1AI")))){
+      this.configure(AIMenu, "P1AI");
     }
+    if(!(config.containsKey("P2AI") && AIMenu.isValid(config.get("P2AI")))){ 
+      this.configure(AIMenu, "P2AI");
+    }
+    player1.setAI(AIMenu.makeSelection(config.get("P1AI")));
+    player2.setAI(AIMenu.makeSelection(config.get("P2AI")));
+    
+    // Select BoardBuilder style
+    Menu<BoardBuilder> BBMenu = 
+      new Menu<>("BoardBuilder/", BoardBuilder.class);
+    
+    if(!(config.containsKey("BoBu") && BBMenu.isValid(config.get("BoBu")))){ 
+      this.configure(BBMenu, "BoBu");
+    }
+    BoardBuilder boardBuilder = 
+      BBMenu.makeSelection(config.get("BoBu"));
+
     player1.setBoard(boardBuilder.buildBoard());
     player2.setBoard(boardBuilder.buildBoard());
   }
@@ -93,12 +108,14 @@ public class Game{
   private void listAI(){
     gui.cls();
     
+    // Prints AI names in correct positions
+
     gui.draw(
-            String.format(
-                    "%1$-"+(33-player1.getAI().getName().length())+"s",
-                    player1.getAI().getName()
-            ),
-            player2.getAI().getName()
+      String.format(
+        "%1$-"+(33-player1.getAI().getName().length())+"s",
+        player1.getAI().getName()
+      ),
+      player2.getAI().getName()
     );
     gui.draw(player1.getBoard(), player2.getBoard());
     
