@@ -108,14 +108,14 @@ public class Game{
     }
   }
   public boolean isRunning(){
-    if(player1.hasWon()){
-      winner = player1;
-      loser = player2;
+    if(player1.hasLost()){
+      loser = player1;
+      winner = player2;
       return false;
     }
-    else if(player2.hasWon()){
-      winner = player2;
-      loser = player1;
+    else if(player2.hasLost()){
+      loser = player2;
+      winner = player1;
       return false;
     }
     return true;

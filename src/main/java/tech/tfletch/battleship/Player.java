@@ -34,7 +34,7 @@ public class Player{
     return board.fireAt(cord); //returns (hit|miss)
   }
 
-  public boolean hasWon(){
+  public boolean hasLost(){
     for(int[] b : board.getBoard()){
       for(int a : b){
         if(a == 1) return false;
