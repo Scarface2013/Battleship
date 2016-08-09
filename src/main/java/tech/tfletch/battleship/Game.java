@@ -1,5 +1,6 @@
 package tech.tfletch.battleship;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
 
@@ -7,6 +8,11 @@ import GUI.*;
 
 public class Game{
   
+  // config is a hash of "config keys" => "int" s that are fed into Menu.
+  // It was chosen to seed Game because making a copy of an object sucks,
+  // and it's much simpler to build it anew, but manually typing your options
+  // in every time is not okay (especially since there are AI runners that
+  // create 1000+ games per run).
   private Map<String,String> config = new HashMap<>();
   
   // Set during initialize()
@@ -19,8 +25,24 @@ public class Game{
   private Player loser;
 
   public Game(){
-    
-  } 
+    this.initialize();
+  }
+  
+  public Game(Map config){
+    this.config = config;
+    this.initialize();
+  }
+  
+  public Game(GUI gui){
+    this.gui = gui;
+    this.initialize();
+  }
+  
+  public Game(Map config, GUI gui){
+    this.config = config;
+    this.gui = gui;
+    this.initialize();
+  }
 
   public void nextTurn(){
     // STEP 1:
@@ -54,32 +76,50 @@ public class Game{
     return config;
   }
   
+  public GUI getGui(){
+    return gui;
+  }
+  
   private void configure(Menu menu, String key){
     gui.draw(menu.drawMenu());
-    while(menu.isValid(
-        config.put(key, gui.promptUser("Select a User Interface"))
-    ));
+    config.put(key, gui.promptUser("Select a User Interface"));
+    while(true){
+      if(menu.isValid(config.get(key))){
+        break;
+      }else{
+        config.put(key, gui.promptUser("Select a User Interface"));
+      }
+    }
   }
 
   private void initialize(){
     player1 = new Player();
     player2 = new Player();
-
-    //The two default-ish GUI choices
-    try{
-      gui = new Basic();
-    }catch(Exception e){
-      gui = new CommandLine();
+    
+    if(gui == null){
+      //The two default-ish GUI choices
+      try{
+        gui = new Basic();
+      }catch(Exception e){
+        gui = new CommandLine();
+      }
+  
+      // Allow user to change GUI from default
+      Menu<GUI> GUIMenu = new Menu<>("GUI/", GUI.class);
+      String key = "GUI";
+      if(!(config.containsKey(key) && GUIMenu.isValid(config.get(key)))){
+        this.configure(GUIMenu, key);
+      }
+      //If we already have the correct GUI, don't remake it
+      if(!gui.getClass().getSimpleName().equals(
+        GUIMenu.getSelectionName(Integer.parseInt(config.get(key))))
+      ){
+        
+        gui.DESTROY();
+        gui = GUIMenu.makeSelection(config.get(key));
+      }
     }
-
-    // Allow user to change GUI from default
-    Menu<GUI> GUIMenu = new Menu<>("GUI/",GUI.class);
-    String key = "GUI";
-    if(!(config.containsKey(key) && GUIMenu.isValid(config.get(key)))){ 
-      this.configure(GUIMenu, key);
-    }
-    gui = GUIMenu.makeSelection(config.get(key));
-
+    
     // Select an AI for each player
     Menu<AI> AIMenu = new Menu<>("AI/", AI.class);
     if(!(config.containsKey("P1AI") && AIMenu.isValid(config.get("P1AI")))){
@@ -105,7 +145,7 @@ public class Game{
     player2.setBoard(boardBuilder.buildBoard());
   }
   
-  private void listAI(){
+  public void listAI(){
     gui.cls();
     
     // Prints AI names in correct positions
@@ -139,12 +179,28 @@ public class Game{
   }
   
   public static void main(String[] args){
-    Game game = new Game();
-    game.initialize();
-    game.listAI();
-    while(game.isRunning()){
-      game.nextTurn();
+    //Create a master copy of game (we need the config and GUI)
+    Game master = new Game();
+    Map<String, String> cfg = master.getConfig();
+    GUI gui = master.getGui();
+    
+    int cnt = Integer.parseInt(gui.promptUser("How many times would you like to run?"));
+  
+    ArrayList<Game> history = new ArrayList<>();
+    while(cnt-->0){
+      Game game = new Game(cfg, gui);
+      game.listAI();
+      while(game.isRunning()){
+        game.nextTurn();
+      }
+      game.listAI();
+      history.add(game);
     }
-    game.listAI();
+  
+    while(true){
+      history.get(Integer.parseInt(
+        gui.promptUser("Which game would you like to see? (0-" + (history.size()-1) + ")")))
+        .listAI();
+    }
   }
 }
