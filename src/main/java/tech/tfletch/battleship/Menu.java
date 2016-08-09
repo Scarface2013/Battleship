@@ -55,7 +55,6 @@ public class Menu<T>{
   
   public boolean isValid(String s){
     try{
-      System.err.println(s);
       int i = Integer.parseInt(s);
       return isValid(i);
     }catch(NumberFormatException e){
@@ -66,6 +65,10 @@ public class Menu<T>{
   }
   public boolean isValid(int i){
     return choices.size() > i;
+  }
+  
+  public String getSelectionName(int i){
+    return choices.get(i).getSimpleName();
   }
   
   public T makeSelection(String s){
