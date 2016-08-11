@@ -196,11 +196,21 @@ public class Game{
       game.listAI();
       history.add(game);
     }
-  
+    
     while(true){
-      history.get(Integer.parseInt(
-        gui.promptUser("Which game would you like to see? (0-" + (history.size()-1) + ")")))
-        .listAI();
+      String response = gui.promptUser("Which game would you like to see? (0-"
+        + (history.size()-1) + ")");
+      if(response.equals("quit") || response.equals("exit")){
+        gui.DESTROY();
+	System.exit(0);
+      }
+      try{
+        history.get(Integer.parseInt(response)).listAI();
+      }catch(IndexOutOfBoundsException e){
+        gui.draw("No game found with specified ID");
+      }catch(NumberFormatException e){
+        gui.draw("Not a number");
+      }
     }
   }
 }
