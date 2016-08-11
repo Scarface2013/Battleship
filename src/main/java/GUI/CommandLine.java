@@ -23,4 +23,8 @@ public class CommandLine extends GUI{
     // Default console size is 80x24, so 24 newlines will clear it.
     System.out.print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
   }
+  
+  public void DESTROY(){
+    //lol fuck off
+  }
 }

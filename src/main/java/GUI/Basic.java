@@ -71,4 +71,8 @@ public class Basic extends GUI{
   public void cls(){
     output.setText("");
   }
+  
+  public void DESTROY(){
+    frame.setVisible(false);
+  }
 }
